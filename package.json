@@ -1,0 +1,10 @@
+{ "name" : "xmlshim"
+, "version" : "0.0.1"
+, "description" : "Provides DOMParser, XMLSerializer and DOMImplementation wrappers in the browser and emulates them on the server-side"
+, "main" : "./index.js"
+, "browserify" : "./browser.js"
+, "dependencies" :
+  { "jsdom" : "0.2.x",
+    "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.4.2"
+  }
+}
