@@ -7,4 +7,8 @@
   { "jsdom" : "0.2.x",
     "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.4.2"
   }
+, "devDependencies" :
+  { "browserify" : "git://github.com/znerol/node-browserify.git#bug/master/relative-load-toplevel-directory"
+  , "nodeunit" : "0.6.x"
+  }
 }

@@ -1,4 +1,4 @@
-var xmlshim = require('xmlshim');
+var xmlshim = require('../');
 var xs, dp;
 
 exports.setUp = function(callback) {
