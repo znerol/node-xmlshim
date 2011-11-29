@@ -1,6 +1,6 @@
 function DOMWriter(writer) {
     this.writer = writer;
-    this.nsstack = [];
+    this.prefixmap = {};
     this.defaultns = undefined;
 }
 
@@ -36,26 +36,66 @@ DOMWriter.prototype.writeNode = function(node) {
 };
 
 DOMWriter.prototype.writeElement = function(element) {
-    var i;
-    var prefix = element.prefix || undefined;
-    var nsURI = element.namespaceURI || undefined;
-    var name = element.tagName || undefined;
+    var i, prefix, nsURI, name, attr, attrPrefix, attrURI,
+        prefixInsert = [], prefixOverride = [];
 
-    /*
+    name = element.nodeName.split(':').slice(-1)[0];
+    nsURI = element.namespaceURI || undefined;
+    prefix = element.prefix || undefined;
+
     if (prefix) {
-        // Element with prefix. look up prefix in nsstack. If prefix/uri pair
-        // is found, undefine prefix. If otherwise set new prefix/uri
+        if (this.prefixmap.hasOwnProperty(prefix)) {
+            if (this.prefixmap[prefix] === nsURI) {
+                nsURI = undefined;
+            }
+            else {
+                prefixOverride.push({
+                    prefix: prefix,
+                    URI: this.prefixmap[prefix]
+                });
+            }
+        }
+        else {
+            this.prefixmap[prefix] = nsURI;
+            prefixInsert.push(prefix);
+        }
+    }
 
+    if (nsURI && !prefix) {
+        if (nsURI !== this.defaultns) {
+            this.defaultns = nsURI;
+        }
+        else {
+            nsURI = undefined;
+        }
     }
-    if (namespace) {
-        // Element in default namespace. Lookup default namespace. If it
-        // matches, undefine namespace. Otherwise push new namespace.
-    }
-    */
 
     this.writer.startElementNS(prefix, name, nsURI);
 
     for (i=0; i < element.attributes.length; i++) {
+        attr = element.attributes[i];
+        if (attr.name.substr(0, 6) === 'xmlns:') {
+            attrPrefix = attr.nodeName.split(':').slice(-1)[0];
+            attrURI = attr.value;
+
+            if (this.prefixmap.hasOwnProperty(attrPrefix)) {
+                if (this.prefixmap[prefix] === attrURI) {
+                    // FIXME: should we suppress emission of xmlns:
+                    // attribute if there is already a correct prefix
+                    // mapping?
+                }
+                else {
+                    prefixOverride.push({
+                        prefix: attrPrefix,
+                        URI: this.prefixmap[attrPrefix]
+                    });
+                }
+            }
+            else {
+                this.prefixmap[attrPrefix] = attrURI;
+                prefixInsert.push(attrPrefix);
+            }
+        }
         this.writeAttribute(element.attributes[i]);
     }
 
@@ -64,6 +104,14 @@ DOMWriter.prototype.writeElement = function(element) {
     }
 
     this.writer.endElement();
+
+    for (i=prefixOverride.length - 1; i >=0 ; i--) {
+        this.prefixmap[prefixOverride[i].prefix] = prefixOverride[i].URI;
+    }
+    for (i=prefixInsert.length - 1; i >=0 ; i--) {
+        delete this.prefixmap[prefixInsert[i]];
+    }
+
 };
 
 DOMWriter.prototype.writeAttribute = function(attribute) {
