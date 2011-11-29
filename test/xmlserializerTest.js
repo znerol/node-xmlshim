@@ -60,38 +60,6 @@ exports['should write elements with namespace prefix'] = function(test) {
     test.done();
 }
 
-exports['child elements should inherit namespaces from parent'] = function(test) {
-    var expect = '<hello xmlns:big="http://example.com/big"><big:world/></hello>';
-    var result;
-    var root = doc.createElementNS(null, 'hello');
-    var child = doc.createElementNS('http://example.com/big', 'big:world');
-
-    root.appendChild(child);
-    root.setAttribute('xmlns:big', 'http://example.com/big');
-    doc.appendChild(root);
-
-    result = xmltrim(xs.serializeToString(doc));
-    test.equals(expect, result);
-
-    test.done();
-}
-
-exports['child elements may override namespaces from parent'] = function(test) {
-    var expect = '<hello xmlns:big="http://example.com/bigwide"><big:world xmlns:big="http://example.com/big"/></hello>';
-    var result;
-    var root = doc.createElementNS(null, 'hello');
-    var child = doc.createElementNS('http://example.com/big', 'big:world');
-
-    root.appendChild(child);
-    root.setAttribute('xmlns:big', 'http://example.com/bigwide');
-    doc.appendChild(root);
-
-    result = xmltrim(xs.serializeToString(doc));
-    test.equals(expect, result);
-
-    test.done();
-}
-
 exports['should write non-namespace attributes'] = function(test) {
     var expect = '<hello say="world"/>';
     var result;
