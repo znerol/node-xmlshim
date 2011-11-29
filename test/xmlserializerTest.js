@@ -13,7 +13,7 @@ function xmltrim(str) {
 
 exports.setUp = function(callback) {
     xs = new xmlshim.XMLSerializer();
-    doc = new xmlshim.implementation.createDocument('', '', null);
+    doc = xmlshim.implementation.createDocument('', '', null);
     callback();
 };
 
@@ -63,7 +63,7 @@ exports['should write elements with namespace prefix'] = function(test) {
 exports['child elements should inherit namespaces from parent'] = function(test) {
     var expect = '<hello xmlns:big="http://example.com/big"><big:world/></hello>';
     var result;
-    var root = doc.createElementNS(undefined, 'hello');
+    var root = doc.createElementNS(null, 'hello');
     var child = doc.createElementNS('http://example.com/big', 'big:world');
 
     root.appendChild(child);
@@ -79,7 +79,7 @@ exports['child elements should inherit namespaces from parent'] = function(test)
 exports['child elements may override namespaces from parent'] = function(test) {
     var expect = '<hello xmlns:big="http://example.com/bigwide"><big:world xmlns:big="http://example.com/big"/></hello>';
     var result;
-    var root = doc.createElementNS(undefined, 'hello');
+    var root = doc.createElementNS(null, 'hello');
     var child = doc.createElementNS('http://example.com/big', 'big:world');
 
     root.appendChild(child);

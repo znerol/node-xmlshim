@@ -53,7 +53,7 @@ exports['child elements should inherit namespaces from parent'] = function(test)
 }
 
 exports['child elements may override namespaces from parent'] = function(test) {
-    var input = '<hello xmlns="http://example.com/" xmlns:big="http://example.com/bigwide"><big:world xmlns:big="http://example.com/big"></hello>';
+    var input = '<hello xmlns="http://example.com/" xmlns:big="http://example.com/bigwide"><big:world xmlns:big="http://example.com/big"/></hello>';
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
