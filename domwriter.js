@@ -1,6 +1,5 @@
 function DOMWriter(writer) {
     this.writer = writer;
-    this.defaultns = undefined;
 }
 
 DOMWriter.prototype.writeDocument = function(doc) {
@@ -44,15 +43,6 @@ DOMWriter.prototype.writeElement = function(element) {
     name = element.nodeName.split(':').slice(-1)[0];
     nsURI = element.namespaceURI || undefined;
     prefix = element.prefix || undefined;
-
-    if (nsURI && !prefix) {
-        if (nsURI !== this.defaultns) {
-            this.defaultns = nsURI;
-        }
-        else {
-            nsURI = undefined;
-        }
-    }
 
     this.writer.startElementNS(prefix, name, nsURI);
 
