@@ -1,6 +1,6 @@
 var dom = require("jsdom").level(3, 'core'),
     xml = require("libxmljs"),
-    saxToDom = require("./saxToDom.js"),
+    parserForDocument = require("./domparser.js").parserForDocument,
     DOMWriter = require("./domwriter.js").DOMWriter;
 
 exports.DOMParser = function() {
@@ -8,7 +8,7 @@ exports.DOMParser = function() {
 
 exports.DOMParser.prototype.parseFromString = function(str, mime) {
     var doc = new dom.Document(),
-        parser = new xml.SaxParser(saxToDom.parserForDocument(doc));
+        parser = new xml.SaxParser(parserForDocument(doc));
 
     parser.parseString(str);
     return doc;

@@ -71,7 +71,7 @@ exports.parserForDocument = function(doc) {
                 if (ns[0]) {
                     element.setAttributeNS(
                         'http://www.w3.org/2000/xmlns/',
-                        'xmlns:' + ns[1], ns[0]);
+                        'xmlns:' + ns[0], ns[1]);
                 }
             });
 
@@ -87,7 +87,7 @@ exports.parserForDocument = function(doc) {
             }
             else if (currentCdata) {
                 currentElement.appendChild(
-                    doc.createTextNode(currentCdata));
+                    doc.createCDATASection(currentCdata));
                 currentCdata = '';
             }
             currentElement = currentElement.parentNode;
@@ -101,8 +101,8 @@ exports.parserForDocument = function(doc) {
             currentCdata += cdata;
         });
 
-        parser.onComment(function(msg) {
-            // FIXME
+        parser.onComment(function(comment) {
+            currentElement.appendChild(doc.createComment(comment));
         });
 
         parser.onWarning(function(msg) {
