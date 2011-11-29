@@ -28,6 +28,10 @@ DOMWriter.prototype.writeNode = function(node) {
             this.writeCdata(node);
             break;
 
+        case node.COMMENT_NODE:
+            this.writeComment(node);
+            break;
+
         default:
             console.log('Serialization of node type ' + node.nodeType +
                     ' not supported yet');
@@ -95,8 +99,14 @@ DOMWriter.prototype.writeElement = function(element) {
                 this.prefixmap[attrPrefix] = attrURI;
                 prefixInsert.push(attrPrefix);
             }
+
+            this.writer.startAttributeNS(undefined, attr.nodeName);
+            this.writer.writeString(attrURI);
+            this.writer.endAttribute();
         }
-        this.writeAttribute(element.attributes[i]);
+        else {
+            this.writeAttribute(element.attributes[i]);
+        }
     }
 
     for (i=0; i < element.childNodes.length; i++) {
@@ -115,9 +125,11 @@ DOMWriter.prototype.writeElement = function(element) {
 };
 
 DOMWriter.prototype.writeAttribute = function(attribute) {
-    var prefix = attribute.prefix || undefined;
-    var nsURI = attribute.namespaceURI || undefined;
-    var name = attribute.name || undefined;
+    var name, nsURI, prefix;
+
+    name = attribute.nodeName.split(':').slice(-1)[0];
+    nsURI = attribute.namespaceURI || undefined;
+    prefix = attribute.prefix || undefined;
 
     this.writer.startAttributeNS(prefix, name, nsURI);
     this.writer.writeString(attribute.value);
@@ -133,5 +145,11 @@ DOMWriter.prototype.writeCdata = function(cdata) {
     this.writer.writeString(cdata.data);
     this.writer.endCdata();
 };
+
+DOMWriter.prototype.writeComment = function(comment) {
+    this.writer.startComment();
+    this.writer.writeString(comment.data);
+    this.writer.endComment();
+}
 
 exports.DOMWriter = DOMWriter;

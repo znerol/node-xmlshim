@@ -61,9 +61,9 @@ exports['should write elements with namespace prefix'] = function(test) {
 }
 
 exports['child elements should inherit namespaces from parent'] = function(test) {
-    var expect = '<hello xmlns:big="http://example.com/big" xmlns="http://example.com/"><big:world/></hello>';
+    var expect = '<hello xmlns:big="http://example.com/big"><big:world/></hello>';
     var result;
-    var root = doc.createElementNS('http://example.com/', 'hello');
+    var root = doc.createElementNS(undefined, 'hello');
     var child = doc.createElementNS('http://example.com/big', 'big:world');
 
     root.appendChild(child);
@@ -76,71 +76,91 @@ exports['child elements should inherit namespaces from parent'] = function(test)
     test.done();
 }
 
-/*
 exports['child elements may override namespaces from parent'] = function(test) {
-    var input = '<hello xmlns="http://example.com/" xmlns:big="http://example.com/bigwide"><big:world xmlns:big="http://example.com/big"></hello>';
-    var doc = xs.parseFromString(input, 'text/xml');
+    var expect = '<hello xmlns:big="http://example.com/bigwide"><big:world xmlns:big="http://example.com/big"/></hello>';
+    var result;
+    var root = doc.createElementNS(undefined, 'hello');
+    var child = doc.createElementNS('http://example.com/big', 'big:world');
 
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.namespaceURI, 'http://example.com/');
+    root.appendChild(child);
+    root.setAttribute('xmlns:big', 'http://example.com/bigwide');
+    doc.appendChild(root);
 
-    test.equals(doc.firstChild.firstChild.nodeName, 'big:world');
-    test.equals(doc.firstChild.firstChild.namespaceURI, 'http://example.com/big');
-
-    test.done();
-}
-
-exports['should parse non-namespace attributes'] = function(test) {
-    var input = '<hello say="world"/>';
-    var doc = xs.parseFromString(input, 'text/xml');
-
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.getAttributeNode('say').nodeValue, 'world');
+    result = xmltrim(xs.serializeToString(doc));
+    test.equals(expect, result);
 
     test.done();
 }
 
-exports['should parse attributes with namespace uri'] = function(test) {
-    var input = '<hello xmlns:aloud="http://example.com/" aloud:say="world"/>';
-    var doc = xs.parseFromString(input, 'text/xml');
+exports['should write non-namespace attributes'] = function(test) {
+    var expect = '<hello say="world"/>';
+    var result;
+    var root = doc.createElement('hello');
 
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.getAttributeNode('aloud:say').nodeValue, 'world');
-    test.equals(doc.firstChild.getAttributeNode('aloud:say').namespaceURI, 'http://example.com/');
+    root.setAttribute('say', 'world');
+    doc.appendChild(root);
 
-    test.done();
-}
-
-exports['should parse text node'] = function(test) {
-    var input = '<hello>world</hello>';
-    var doc = xs.parseFromString(input, 'text/xml');
-
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.firstChild.nodeType, doc.TEXT_NODE);
-    test.equals(doc.firstChild.firstChild.nodeValue, 'world');
+    result = xmltrim(xs.serializeToString(doc));
+    test.equals(expect, result);
 
     test.done();
 }
 
-exports['should parse CDATA section'] = function(test) {
-    var input = '<hello><![CDATA[> world <]]></hello>';
-    var doc = xs.parseFromString(input, 'text/xml');
+exports['should write attributes with namespace uri'] = function(test) {
+    var expect = '<hello aloud:say="world" xmlns:aloud="http://example.com/"/>';
+    var result;
+    var root = doc.createElement('hello');
 
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.firstChild.nodeType, doc.CDATA_SECTION_NODE);
-    test.equals(doc.firstChild.firstChild.nodeValue, '> world <');
+    root.setAttributeNS('http://example.com/', 'aloud:say', 'world');
+    doc.appendChild(root);
+
+    result = xmltrim(xs.serializeToString(doc));
+    test.equals(expect, result);
+
+    test.done();
+}
+
+exports['should write text node'] = function(test) {
+    var expect = '<hello>world</hello>';
+    var result;
+    var root = doc.createElement('hello');
+    var child = doc.createTextNode('world');
+
+    root.appendChild(child);
+    doc.appendChild(root);
+
+    result = xmltrim(xs.serializeToString(doc));
+    test.equals(expect, result);
 
     test.done();
 }
 
-exports['should parse comments'] = function(test) {
-    var input = '<hello><!--world--></hello>';
-    var doc = xs.parseFromString(input, 'text/xml');
+exports['should write CDATA section'] = function(test) {
+    var expect = '<hello><![CDATA[> world <]]></hello>';
+    var result;
+    var root = doc.createElement('hello');
+    var child = doc.createCDATASection('> world <');
 
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.firstChild.nodeType, doc.COMMENT_NODE);
-    test.equals(doc.firstChild.firstChild.nodeValue, 'world');
+    root.appendChild(child);
+    doc.appendChild(root);
+
+    result = xmltrim(xs.serializeToString(doc));
+    test.equals(expect, result);
 
     test.done();
 }
-*/
+
+exports['should write comments'] = function(test) {
+    var expect = '<hello><!--world--></hello>';
+    var result;
+    var root = doc.createElement('hello');
+    var child = doc.createComment('world');
+
+    root.appendChild(child);
+    doc.appendChild(root);
+
+    result = xmltrim(xs.serializeToString(doc));
+    test.equals(expect, result);
+
+    test.done();
+}
