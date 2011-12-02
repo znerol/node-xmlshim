@@ -4,12 +4,6 @@ var xs, doc;
 /**
  * Strip xml preambel and leading/trailing whitespace
  */
-function xmltrim(str) {
-    str = str.replace(/^<\?xml[^>]*>/,'');
-    str = str.replace(/^\s*/,'');
-    str = str.replace(/\s*$/,'');
-    return str;
-}
 
 exports.setUp = function(callback) {
     xs = new xmlshim.XMLSerializer();
@@ -24,22 +18,7 @@ exports['should write single element non-namespace xml'] = function(test) {
 
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
-    test.equals(expect, result);
-
-    test.done();
-};
-
-exports['should write elements with default namespace'] = function(test) {
-    var expect = '<hello xmlns="http://example.com/"><world/></hello>';
-    var result;
-    var root = doc.createElementNS('http://example.com/', 'hello');
-    var child = doc.createElementNS('http://example.com/', 'world');
-
-    root.appendChild(child);
-    doc.appendChild(root);
-
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
     test.equals(expect, result);
 
     test.done();
@@ -54,7 +33,7 @@ exports['should write elements with namespace prefix'] = function(test) {
     root.appendChild(child);
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
     test.equals(expect, result);
 
     test.done();
@@ -68,7 +47,7 @@ exports['should write non-namespace attributes'] = function(test) {
     root.setAttribute('say', 'world');
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
     test.equals(expect, result);
 
     test.done();
@@ -82,7 +61,7 @@ exports['should write attributes with namespace uri'] = function(test) {
     root.setAttributeNS('http://example.com/', 'aloud:say', 'world');
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
     test.equals(expect, result);
 
     test.done();
@@ -97,7 +76,7 @@ exports['should write text node'] = function(test) {
     root.appendChild(child);
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
     test.equals(expect, result);
 
     test.done();
@@ -112,7 +91,7 @@ exports['should write CDATA section'] = function(test) {
     root.appendChild(child);
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
     test.equals(expect, result);
 
     test.done();
@@ -127,7 +106,45 @@ exports['should write comments'] = function(test) {
     root.appendChild(child);
     doc.appendChild(root);
 
-    result = xmltrim(xs.serializeToString(doc));
+    result = xs.serializeToString(doc);
+    test.equals(expect, result);
+
+    test.done();
+}
+
+exports['should write document fragments'] = function(test) {
+    var expect = 'hello<world/>';
+    var result;
+    var frag = doc.createDocumentFragment();
+
+    frag.appendChild(doc.createTextNode('hello'));
+    frag.appendChild(doc.createElement('world'));
+
+    result = xs.serializeToString(frag);
+    test.equals(expect, result);
+
+    test.done();
+}
+
+exports['should write single element node'] = function(test) {
+    var expect = '<hello-world/>';
+    var result;
+
+    var e = doc.createElement('hello-world');
+
+    result = xs.serializeToString(e);
+    test.equals(expect, result);
+
+    test.done();
+}
+
+exports['should write single text node'] = function(test) {
+    var expect = '&gt;&gt; hello world';
+    var result;
+
+    var t = doc.createTextNode('>> hello world');
+
+    result = xs.serializeToString(t);
     test.equals(expect, result);
 
     test.done();

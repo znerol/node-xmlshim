@@ -2,12 +2,6 @@ function DOMWriter(writer) {
     this.writer = writer;
 }
 
-DOMWriter.prototype.writeDocument = function(doc) {
-    this.writer.startDocument();
-    this.writeElement(doc.documentElement);
-    this.writer.endDocument();
-}
-
 DOMWriter.prototype.writeNode = function(node) {
     switch (node.nodeType) {
         case node.ELEMENT_NODE:
@@ -30,12 +24,21 @@ DOMWriter.prototype.writeNode = function(node) {
             this.writeComment(node);
             break;
 
+        case node.DOCUMENT_NODE:
+            this.writeDocument(node);
+            break;
+
+        case node.DOCUMENT_FRAGMENT_NODE:
+            this.writeDocumentFragment(node);
+            break;
+
         default:
             console.log('Serialization of node type ' + node.nodeType +
                     ' not supported yet');
             break;
     }
 };
+
 
 DOMWriter.prototype.writeElement = function(element) {
     var i, prefix, nsURI, name, attr;
@@ -86,6 +89,17 @@ DOMWriter.prototype.writeComment = function(comment) {
     this.writer.startComment();
     this.writer.writeString(comment.data);
     this.writer.endComment();
+}
+
+DOMWriter.prototype.writeDocument = function(doc) {
+    this.writeElement(doc.documentElement);
+}
+
+DOMWriter.prototype.writeDocumentFragment = function(docfrag) {
+    var i;
+    for (i=0; i < docfrag.childNodes.length; i++) {
+        this.writeNode(docfrag.childNodes[i]);
+    }
 }
 
 exports.DOMWriter = DOMWriter;
