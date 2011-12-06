@@ -1,11 +1,30 @@
 { "name" : "xmlshim"
 , "version" : "0.0.1"
 , "description" : "Provides DOMParser, XMLSerializer and DOMImplementation wrappers in the browser and emulates them on the server-side"
+, "keywords" :
+  [ "XML"
+  , "DOM"
+  , "DOMParser"
+  , "XMLSerializer"
+  , "createDocument"
+  , "browserify"
+  ]
 , "main" : "./index.js"
 , "browserify" : "./browser.js"
+, "author" :
+  { "name" : "Lorenz Schori"
+  , "email" : "lo+xmlshim@znerol.ch"
+  }
+, "bugs" :
+  { "url" : "https://github.com/znerol/node-xmlshim/issues"
+  }
+, "repository" :
+  { "type" : "git"
+  , "url" : "git@github.com:znerol/node-xmlshim.git"
+  }
 , "dependencies" :
-  { "jsdom" : "0.2.x",
-    "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.4.2"
+  { "jsdom" : "0.2.x"
+  , "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.4.2"
   }
 , "devDependencies" :
   { "browserify" : "git://github.com/znerol/node-browserify.git#bug/master/relative-load-toplevel-directory"
