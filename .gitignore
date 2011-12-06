@@ -1,2 +1,3 @@
 node_modules
-dist/browser-test/xmlshim-test.js
+browser-test/xmlshim-test.js
+browser-test/nodeunit.*

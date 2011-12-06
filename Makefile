@@ -1,13 +1,29 @@
 BROWSER=firefox
+BROWSERIFY=./node_modules/.bin/browserify
+NODEUNIT=./node_modules/.bin/nodeunit
+
+NODEUNIT_SRC=./node_modules/nodeunit
+NODEUNIT_JS=$(NODEUNIT_SRC)/dist/browser/nodeunit.js
+NODEUNIT_CSS=$(NODEUNIT_SRC)/dist/browser/nodeunit.css
 
 test:
-	./node_modules/.bin/nodeunit test
+	$(NODEUNIT) test
 
-browser:
-	./node_modules/.bin/browserify test-browserify-entry.js > \
-		dist/browser-test/xmlshim-test.js
+browser-test/xmlshim-test.js:
+	$(BROWSERIFY) test-browserify-entry.js > browser-test/xmlshim-test.js
 
-browser-test: browser
-	 $(BROWSER) dist/browser-test/test.html >/dev/null 2>&1 &
+browser-test/nodeunit.css: $(NODEUNIT_CSS)
+	cp $(NODEUNIT_CSS) browser-test/nodeunit.css
 
-.PHONY: test browser-test
+browser-test/nodeunit.js: $(NODEUNIT_JS)
+	cp $(NODEUNIT_JS) browser-test/nodeunit.js
+
+browser-test: browser-test/xmlshim-test.js browser-test/nodeunit.css browser-test/nodeunit.js
+	$(BROWSER) browser-test/test.html >/dev/null 2>&1 &
+
+clean:
+	rm -f browser-test/nodeunit.js
+	rm -f browser-test/nodeunit.css
+	rm -f browser-test/xmlshim-test.js
+
+.PHONY: test browser-test clean
