@@ -27,6 +27,22 @@ exports.parserForDocument = function(doc) {
     /** @private */
     var currentCdata = '';
 
+    /**
+     * Add text node or CDATA section before starting or ending an element
+     */
+    function flushData() {
+        if (currentCharacters) {
+            currentElement.appendChild(
+                    doc.createTextNode(currentCharacters));
+            currentCharacters = '';
+        }
+        else if (currentCdata) {
+            currentElement.appendChild(
+                    doc.createCDATASection(currentCdata));
+            currentCdata = '';
+        }
+    }
+
     return function(parser) {
 
         parser.onStartDocument(function() {});
@@ -35,6 +51,9 @@ exports.parserForDocument = function(doc) {
 
         parser.onStartElementNS(function(elem, attrs, prefix, uri, namespaces) {
             var element;
+
+            // Finish preceeding text node or CDATA section if any.
+            flushData();
 
             // Create element
             if (uri) {
@@ -80,16 +99,7 @@ exports.parserForDocument = function(doc) {
         });
 
         parser.onEndElementNS(function(elem, prefix, uri) {
-            if (currentCharacters) {
-                currentElement.appendChild(
-                    doc.createTextNode(currentCharacters));
-                currentCharacters = '';
-            }
-            else if (currentCdata) {
-                currentElement.appendChild(
-                    doc.createCDATASection(currentCdata));
-                currentCdata = '';
-            }
+            flushData();
             currentElement = currentElement.parentNode;
         });
 

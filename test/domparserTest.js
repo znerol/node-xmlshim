@@ -118,3 +118,16 @@ exports['should parse comments'] = function(test) {
 
     test.done();
 }
+
+exports['should parse text node before empty element into the enclosing element'] = function(test) {
+    var input = '<hello>world<br/></hello>';
+    var doc = dp.parseFromString(input, 'text/xml');
+
+    test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.firstChild.nodeType, doc.TEXT_NODE);
+    test.equals(doc.firstChild.firstChild.nodeValue, 'world');
+    test.equals(doc.firstChild.firstChild.nextSibling.nodeType, doc.ELEMENT_NODE);
+    test.equals(doc.firstChild.firstChild.nextSibling.nodeName, 'br');
+
+    test.done();
+}
