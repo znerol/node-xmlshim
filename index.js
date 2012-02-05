@@ -1,6 +1,6 @@
 var dom = require("jsdom").level(3, 'core'),
     xml = require("libxmljs"),
-    parserForDocument = require("./domparser.js").parserForDocument,
+    handlersForDocument = require("./domparser.js").handlersForDocument,
     DOMWriter = require("./domwriter.js").DOMWriter;
 
 exports.DOMParser = function() {
@@ -8,7 +8,7 @@ exports.DOMParser = function() {
 
 exports.DOMParser.prototype.parseFromString = function(str, mime) {
     var doc = new dom.Document(),
-        parser = new xml.SaxParser(parserForDocument(doc));
+        parser = new xml.SaxParser(handlersForDocument(doc));
 
     parser.parseString(str);
     return doc;
@@ -22,8 +22,6 @@ exports.XMLSerializer.prototype.serializeToString = function(doc) {
     var textwriter = new xml.TextWriter(),
         domwriter = new DOMWriter(textwriter),
         result;
-
-    textwriter.openMemory();
 
     // libxml xmlTextWriterStartDocument not only writes the document preamble
     // but also sets up functions used for document encoding. Therefore we

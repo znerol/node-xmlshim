@@ -7,19 +7,19 @@
  * <code>
  * var dom = require("jsdom").level(3, 'core'),
  *     xml = require("libxmljs"),
- *     saxTodom = require("./saxToDom.js");
+ *     domparser = require("./domparser.js");
  *
  * var doc = new dom.Document();
- * var parser = new xml.SaxParser(saxToDom.parserForDocument(doc));
+ * var parser = new xml.SaxParser(domparser.handlersForDocument(doc));
  * parser.parseFile('example.xml');
  * // doc is now populated with the contents of example.xml file
  * </code>
  *
  * @param   doc A document instance implementing at least DOM Core Level 2.
- * @returns A function taking a SAX Parser instance, augmenting it with the
- *          necessary SAX handlers upon evaluation.
+ * @returns An object suitable for passing to the libxmljs.SaxParser and
+ *          libixmljs.PushParser constructors.
  */
-exports.parserForDocument = function(doc) {
+exports.handlersForDocument = function(doc) {
     /** @private */
     var currentElement = doc;
     /** @private */
@@ -43,13 +43,13 @@ exports.parserForDocument = function(doc) {
         }
     }
 
-    return function(parser) {
+    return {
 
-        parser.onStartDocument(function() {});
+        startDocument: function() {},
 
-        parser.onEndDocument(function() {});
+        endDocument: function() {},
 
-        parser.onStartElementNS(function(elem, attrs, prefix, uri, namespaces) {
+        startElementNS: function(elem, attrs, prefix, uri, namespaces) {
             var element;
 
             // Finish preceeding text node or CDATA section if any.
@@ -96,31 +96,31 @@ exports.parserForDocument = function(doc) {
 
             currentElement.appendChild(element);
             currentElement = element;
-        });
+        },
 
-        parser.onEndElementNS(function(elem, prefix, uri) {
+        endElementNS: function(elem, prefix, uri) {
             flushData();
             currentElement = currentElement.parentNode;
-        });
+        },
 
-        parser.onCharacters(function(chars) {
+        characters: function(chars) {
             currentCharacters += chars;
-        });
+        },
 
-        parser.onCdata(function(cdata) {
+        cdata: function(cdata) {
             currentCdata += cdata;
-        });
+        },
 
-        parser.onComment(function(comment) {
+        comment: function(comment) {
             currentElement.appendChild(doc.createComment(comment));
-        });
+        },
 
-        parser.onWarning(function(msg) {
+        warning: function(msg) {
             // FIXME
-        });
+        },
 
-        parser.onError(function(msg) {
+        error: function(msg) {
             // FIXME
-        });
+        }
     };
 };
