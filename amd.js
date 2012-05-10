@@ -1,5 +1,5 @@
 /**
- * AWM version of xmlshim. Copy this file into your AWM modules directory and
+ * AMD version of xmlshim. Copy this file into your AMD modules directory and
  * rename it to xmlshim.js
  */
 define(function() {
