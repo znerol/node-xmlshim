@@ -27,7 +27,7 @@
   , "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.17.1"
   }
 , "devDependencies" :
-  { "browserify" : "1.10.x"
+  { "browserify" : "13.x"
   , "nodeunit" : "0.9.x"
   }
 }
