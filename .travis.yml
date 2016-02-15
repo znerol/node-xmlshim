@@ -4,7 +4,6 @@ env:
   - CXX=g++-4.8
 
 node_js:
-  - iojs-1
   - iojs-2
   - iojs-3
   - 4
