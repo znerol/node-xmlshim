@@ -14,7 +14,7 @@ exports.setUp = function(callback) {
 exports['should write single element non-namespace xml'] = function(test) {
     var expect = '<hello-world/>';
     var result;
-    var root = doc.createElement('hello-world');
+    var root = doc.createElementNS(null, 'hello-world');
 
     doc.appendChild(root);
 
@@ -42,7 +42,7 @@ exports['should write elements with namespace prefix'] = function(test) {
 exports['should write non-namespace attributes'] = function(test) {
     var expect = '<hello say="world"/>';
     var result;
-    var root = doc.createElement('hello');
+    var root = doc.createElementNS(null, 'hello');
 
     root.setAttribute('say', 'world');
     doc.appendChild(root);
@@ -56,7 +56,7 @@ exports['should write non-namespace attributes'] = function(test) {
 exports['should write attributes with namespace uri'] = function(test) {
     var expect = '<hello aloud:say="world" xmlns:aloud="http://example.com/"/>';
     var result;
-    var root = doc.createElement('hello');
+    var root = doc.createElementNS(null, 'hello');
 
     root.setAttributeNS('http://example.com/', 'aloud:say', 'world');
     doc.appendChild(root);
@@ -70,7 +70,7 @@ exports['should write attributes with namespace uri'] = function(test) {
 exports['should write text node'] = function(test) {
     var expect = '<hello>world</hello>';
     var result;
-    var root = doc.createElement('hello');
+    var root = doc.createElementNS(null, 'hello');
     var child = doc.createTextNode('world');
 
     root.appendChild(child);
@@ -100,7 +100,7 @@ exports['should write CDATA section'] = function(test) {
 exports['should write comments'] = function(test) {
     var expect = '<hello><!--world--></hello>';
     var result;
-    var root = doc.createElement('hello');
+    var root = doc.createElementNS(null, 'hello');
     var child = doc.createComment('world');
 
     root.appendChild(child);
@@ -118,7 +118,7 @@ exports['should write document fragments'] = function(test) {
     var frag = doc.createDocumentFragment();
 
     frag.appendChild(doc.createTextNode('hello'));
-    frag.appendChild(doc.createElement('world'));
+    frag.appendChild(doc.createElementNS(null, 'world'));
 
     result = xs.serializeToString(frag);
     test.equals(expect, result);
@@ -130,7 +130,7 @@ exports['should write single element node'] = function(test) {
     var expect = '<hello-world/>';
     var result;
 
-    var e = doc.createElement('hello-world');
+    var e = doc.createElementNS(null, 'hello-world');
 
     result = xs.serializeToString(e);
     test.equals(expect, result);

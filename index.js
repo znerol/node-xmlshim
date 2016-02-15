@@ -1,13 +1,15 @@
-var dom = require("jsdom").level(3, 'core'),
+var jsdom = require("jsdom"),
     xml = require("libxmljs"),
     handlersForDocument = require("./domparser.js").handlersForDocument,
     DOMWriter = require("./domwriter.js").DOMWriter;
+
+var impl = jsdom.jsdom(undefined, { parsingMode: "xml" }).implementation;
 
 exports.DOMParser = function() {
 }
 
 exports.DOMParser.prototype.parseFromString = function(str, mime) {
-    var doc = new dom.Document(),
+    var doc = impl.createDocument("", "", null);
         parser = new xml.SaxParser(handlersForDocument(doc));
 
     parser.parseString(str);
@@ -51,4 +53,4 @@ exports.XMLSerializer.prototype.serializeToString = function(doc) {
 };
 
 
-exports.implementation = new (dom.DOMImplementation)();
+exports.implementation = impl;

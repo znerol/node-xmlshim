@@ -65,7 +65,7 @@ exports.handlersForDocument = function(doc) {
                 }
             }
             else {
-                element = doc.createElement(elem);
+                element = doc.createElementNS(null, elem);
             }
 
             // Add attributes
