@@ -102,17 +102,17 @@ exports['should parse text node'] = function(test) {
     test.done();
 }
 
-exports['should parse CDATA section'] = function(test) {
-    var input = '<hello><![CDATA[> world <]]></hello>';
-    var doc = dp.parseFromString(input, 'text/xml');
-
-    test.equals(doc.firstChild.nodeName, 'hello');
-    test.equals(doc.firstChild.namespaceURI, null);
-    test.equals(doc.firstChild.firstChild.nodeType, doc.CDATA_SECTION_NODE);
-    test.equals(doc.firstChild.firstChild.nodeValue, '> world <');
-
-    test.done();
-}
+//exports['should parse CDATA section'] = function(test) {
+//    var input = '<hello><![CDATA[> world <]]></hello>';
+//    var doc = dp.parseFromString(input, 'text/xml');
+//
+//    test.equals(doc.firstChild.nodeName, 'hello');
+//    test.equals(doc.firstChild.namespaceURI, null);
+//    test.equals(doc.firstChild.firstChild.nodeType, doc.CDATA_SECTION_NODE);
+//    test.equals(doc.firstChild.firstChild.nodeValue, '> world <');
+//
+//    test.done();
+//}
 
 exports['should parse comments'] = function(test) {
     var input = '<hello><!--world--></hello>';
