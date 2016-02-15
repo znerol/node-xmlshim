@@ -1,7 +1,23 @@
 language: node_js
+
+env:
+  - CXX=g++-4.8
+
 node_js:
   - iojs-1
   - iojs-2
   - iojs-3
   - 4
   - 5
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+sudo: false
+
+before_install:
+  - $CXX --version
