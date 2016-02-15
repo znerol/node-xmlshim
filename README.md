@@ -1,7 +1,7 @@
 Node XML Shim
 =============
 
-[![Build Status](https://secure.travis-ci.org/znerol/xmlshim.svg?branch=master)](http://travis-ci.org/znerol/xmlshim)
+[![Build Status](https://secure.travis-ci.org/znerol/node-xmlshim.svg?branch=master)](http://travis-ci.org/znerol/node-xmlshim)
 
 This project brings the ``DOMParser``[1] and ``XMLSerializer``[2] objects known
 from the browser to node.js. Additionally functions from
