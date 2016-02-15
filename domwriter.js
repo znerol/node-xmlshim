@@ -66,7 +66,7 @@ DOMWriter.prototype.writeElement = function(element) {
 DOMWriter.prototype.writeAttribute = function(attribute) {
     var name, nsURI, prefix;
 
-    name = attribute.nodeName.split(':').slice(-1)[0];
+    name = attribute.name.split(':').slice(-1)[0];
     nsURI = attribute.namespaceURI || undefined;
     prefix = attribute.prefix || undefined;
 
