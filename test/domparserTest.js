@@ -10,6 +10,7 @@ exports['should parse single element non-namespace xml'] = function(test) {
     var input = '<hello-world/>';
     var doc = dp.parseFromString(input, 'text/xml');
     test.equals(doc.firstChild.nodeName, 'hello-world');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.done();
 };
 
@@ -70,7 +71,9 @@ exports['should parse non-namespace attributes'] = function(test) {
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.equals(doc.firstChild.getAttributeNode('say').nodeValue, 'world');
+    test.equals(doc.firstChild.getAttributeNode('say').namespaceURI, null);
 
     test.done();
 }
@@ -80,6 +83,7 @@ exports['should parse attributes with namespace uri'] = function(test) {
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.equals(doc.firstChild.getAttributeNode('aloud:say').nodeValue, 'world');
     test.equals(doc.firstChild.getAttributeNode('aloud:say').namespaceURI, 'http://example.com/');
 
@@ -91,6 +95,7 @@ exports['should parse text node'] = function(test) {
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.equals(doc.firstChild.firstChild.nodeType, doc.TEXT_NODE);
     test.equals(doc.firstChild.firstChild.nodeValue, 'world');
 
@@ -102,6 +107,7 @@ exports['should parse CDATA section'] = function(test) {
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.equals(doc.firstChild.firstChild.nodeType, doc.CDATA_SECTION_NODE);
     test.equals(doc.firstChild.firstChild.nodeValue, '> world <');
 
@@ -113,6 +119,7 @@ exports['should parse comments'] = function(test) {
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.equals(doc.firstChild.firstChild.nodeType, doc.COMMENT_NODE);
     test.equals(doc.firstChild.firstChild.nodeValue, 'world');
 
@@ -124,10 +131,12 @@ exports['should parse text node before empty element into the enclosing element'
     var doc = dp.parseFromString(input, 'text/xml');
 
     test.equals(doc.firstChild.nodeName, 'hello');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.equals(doc.firstChild.firstChild.nodeType, doc.TEXT_NODE);
     test.equals(doc.firstChild.firstChild.nodeValue, 'world');
     test.equals(doc.firstChild.firstChild.nextSibling.nodeType, doc.ELEMENT_NODE);
     test.equals(doc.firstChild.firstChild.nextSibling.nodeName, 'br');
+    test.equals(doc.firstChild.firstChild.nextSibling.namespaceURI, null);
 
     test.done();
 }

@@ -10,6 +10,7 @@ exports.setUp = function(callback) {
 exports.testParseSimpleXML = function(test) {
     var doc = dp.parseFromString('<hello-world/>', 'text/xml');
     test.equals(doc.firstChild.nodeName, 'hello-world');
+    test.equals(doc.firstChild.namespaceURI, null);
     test.done();
 };
 
