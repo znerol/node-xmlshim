@@ -9,6 +9,16 @@ via this module.
 XML Shim is ready to be browsified and therefore pretty useful for
 cross-platform projects.
 
+Branches:
+--------
+
+0.x: Compatible with node versions supported by jsdom 0.11.x
+1.x: Compatible with node versions supported by jsdom 3.x (0.10, 0.12)
+2.x: Compatible with node versions supported by jsdom >= 3.x (iojs)
+
+Note that jsdom >= 1.0 does not support CDATA sections. Hence xmlshim >= 1.x
+will fail to parse/write any CDATA sections.
+
 
 DOMParser example:
 ------------------
