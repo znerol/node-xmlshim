@@ -27,7 +27,7 @@
   }
 , "dependencies" :
   { "jsdom" : "3.1.x"
-  , "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.17.1"
+  , "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.18.0"
   }
 , "devDependencies" :
   { "browserify" : "13.x"
