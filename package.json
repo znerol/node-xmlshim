@@ -11,6 +11,9 @@
   ]
 , "main" : "./index.js"
 , "browserify" : "./browser.js"
+, "scripts":
+  { "test": "./node_modules/nodeunit/bin/nodeunit test"
+  }
 , "author" :
   { "name" : "Lorenz Schori"
   , "email" : "lo+xmlshim@znerol.ch"
