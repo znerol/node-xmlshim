@@ -1,36 +1,37 @@
-{ "name" : "xmlshim"
-, "version" : "0.2.2"
-, "description" : "Provides DOMParser, XMLSerializer and DOMImplementation wrappers in the browser and emulates them on the server-side"
-, "keywords" :
-  [ "XML"
-  , "DOM"
-  , "DOMParser"
-  , "XMLSerializer"
-  , "createDocument"
-  , "browserify"
-  ]
-, "main" : "./index.js"
-, "browserify" : "./browser.js"
-, "scripts":
-  { "test": "./node_modules/nodeunit/bin/nodeunit test"
-  }
-, "author" :
-  { "name" : "Lorenz Schori"
-  , "email" : "lo+xmlshim@znerol.ch"
-  }
-, "bugs" :
-  { "url" : "https://github.com/znerol/node-xmlshim/issues"
-  }
-, "repository" :
-  { "type" : "git"
-  , "url" : "git@github.com:znerol/node-xmlshim.git"
-  }
-, "dependencies" :
-  { "jsdom" : "^6.5.1"
-  , "libxmljs" : "git://github.com/znerol/libxmljs.git#xmlwriter-0.18.0"
-  }
-, "devDependencies" :
-  { "browserify" : "^14.0.0"
-  , "nodeunit" : "0.11.x"
+{
+  "name": "xmlshim",
+  "version": "0.2.2",
+  "description": "Provides DOMParser, XMLSerializer and DOMImplementation wrappers in the browser and emulates them on the server-side",
+  "keywords": [
+    "XML",
+    "DOM",
+    "DOMParser",
+    "XMLSerializer",
+    "createDocument",
+    "browserify"
+  ],
+  "main": "./index.js",
+  "browserify": "./browser.js",
+  "scripts": {
+    "test": "./node_modules/nodeunit/bin/nodeunit test"
+  },
+  "author": {
+    "name": "Lorenz Schori",
+    "email": "lo+xmlshim@znerol.ch"
+  },
+  "bugs": {
+    "url": "https://github.com/znerol/node-xmlshim/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:znerol/node-xmlshim.git"
+  },
+  "dependencies": {
+    "jsdom": "^6.5.1",
+    "libxmljs": "git://github.com/znerol/libxmljs.git#xmlwriter-0.18.0"
+  },
+  "devDependencies": {
+    "browserify": "^14.0.0",
+    "nodeunit": "0.11.x"
   }
 }
