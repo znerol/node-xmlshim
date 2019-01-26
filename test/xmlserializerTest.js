@@ -54,7 +54,10 @@ exports['should write non-namespace attributes'] = function(test) {
 }
 
 exports['should write attributes with namespace uri'] = function(test) {
-    var expect = '<hello aloud:say="world" xmlns:aloud="http://example.com/"/>';
+    var expect = [
+        '<hello aloud:say="world" xmlns:aloud="http://example.com/"/>',
+        '<hello xmlns:aloud="http://example.com/" aloud:say="world"/>',
+    ];
     var result;
     var root = doc.createElementNS(null, 'hello');
 
@@ -62,7 +65,7 @@ exports['should write attributes with namespace uri'] = function(test) {
     doc.appendChild(root);
 
     result = xs.serializeToString(doc);
-    test.equals(expect, result);
+    test.ok(0 <= expect.indexOf(result) && expect.indexOf(result) < 2);
 
     test.done();
 }
