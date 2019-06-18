@@ -1,3 +1,4 @@
 node_modules
 browser-test/xmlshim-test.js
 browser-test/nodeunit.*
+package-lock.json
