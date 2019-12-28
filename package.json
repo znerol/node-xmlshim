@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "jsdom": "^8.5.0",
-    "libxmljs": "znerol/libxmljs#xmlwriter-0.19.5"
+    "libxmljs": "znerol/libxmljs#xmlwriter-0.19.7"
   },
   "devDependencies": {
     "browserify": "^16.2.3",
