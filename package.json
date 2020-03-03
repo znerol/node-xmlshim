@@ -1,6 +1,6 @@
 {
   "name": "xmlshim",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Provides DOMParser, XMLSerializer and DOMImplementation wrappers in the browser and emulates them on the server-side",
   "keywords": [
     "XML",
