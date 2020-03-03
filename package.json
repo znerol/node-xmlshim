@@ -27,7 +27,7 @@
     "url": "git@github.com:znerol/node-xmlshim.git"
   },
   "dependencies": {
-    "jsdom": "^8.5.0",
+    "jsdom": "^6.5.1",
     "libxmljs": "znerol/libxmljs#xmlwriter-0.19.7"
   },
   "devDependencies": {
